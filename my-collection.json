@@ -1,0 +1,156 @@
+{
+  "info": {
+    "_postman_id": "67345ba9-63bc-4503-a467-24d4e1c30ce8",
+    "name": "My Collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52542554",
+    "_collection_link": "https://go.postman.co/collection/52542554-67345ba9-63bc-4503-a467-24d4e1c30ce8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "POST Создать пост",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Получаем ответ от сервера\r",
+              "const response = pm.response.json();\r",
+              "\r",
+              "// Тесты\r",
+              "pm.test(\"Статус 200 OK\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Ответ содержит наши данные\", function () {\r",
+              "    pm.expect(response.json.title).to.eql(\"Мой первый автотест\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Тело ответа не пустое\", function () {\r",
+              "    pm.expect(response.json).to.not.be.undefined;\r",
+              "});\r",
+              "\r",
+              "// Выводим в консоль для отладки\r",
+              "console.log(\"Ответ сервера:\", response);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Мой первый автотест\",\r\n    \"body\": \"Этот пост создан из Postman\",\r\n    \"userId\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://postman-echo.com/post",
+          "protocol": "https",
+          "host": [
+            "postman-echo",
+            "com"
+          ],
+          "path": [
+            "post"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Получить пост",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const data = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Статус 200\", () => {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"ID = 1\", () => {\r",
+              "    pm.expect(data.id).to.equal(1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Есть заголовок\", () => {\r",
+              "    pm.expect(data.title).to.be.a('string');\r",
+              "});\r",
+              "\r",
+              "// НОВЫЙ ТЕСТ\r",
+              "pm.test(\"userId — число\", function () {\r",
+              "    pm.expect(data.userId).to.be.a('number');\r",
+              "});\r",
+              "\r",
+              "// Проверка по Заданию 2\r",
+              "pm.test(\"Проверка userId\", function () {\r",
+              "    pm.expect(data.userId).to.be.a('number');\r",
+              "    pm.expect(data.userId).to.equal(1);  // и число, и равно 1\r",
+              "    pm.expect(data.userId).to.be.above(0); // и больше нуля\r",
+              "});\r",
+              "\r",
+              "// проверка \"не пустое тело\"\r",
+              "pm.test(\"Тело ответа не пустое\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data).to.not.be.empty;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "createdPostId",
+      "value": ""
+    },
+    {
+      "key": "createdPostTitle",
+      "value": ""
+    }
+  ]
+}
