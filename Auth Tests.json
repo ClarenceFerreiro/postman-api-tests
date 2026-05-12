@@ -1,0 +1,86 @@
+{
+  "info": {
+    "_postman_id": "c6cf755d-166b-4f20-af8f-6383b4815de9",
+    "name": "Auth Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52542554",
+    "_collection_link": "https://go.postman.co/collection/52542554-c6cf755d-166b-4f20-af8f-6383b4815de9?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Get User - With Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const response = pm.response.json();\r",
+              "const expectedToken = pm.collectionVariables.get(\"authToken\");\r",
+              "\r",
+              "pm.test(\"Status 200 OK (with token)\", () => {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Token passed correctly in URL\", () => {\r",
+              "    pm.expect(response.args.token).to.equal(expectedToken);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Token is not empty\", () => {\r",
+              "    pm.expect(expectedToken).to.not.be.empty;\r",
+              "});\r",
+              "\r",
+              "console.log(\"Token used:\", expectedToken);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://postman-echo.com/get?token={{authToken}}",
+          "protocol": "https",
+          "host": [
+            "postman-echo",
+            "com"
+          ],
+          "path": [
+            "get"
+          ],
+          "query": [
+            {
+              "key": "token",
+              "value": "{{authToken}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User - No token",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "authToken",
+      "value": ""
+    }
+  ]
+}
