@@ -25,30 +25,23 @@ jobs:
         continue-on-error: true
         run: newman run simple-test.json
       
-      - name: Send Telegram notification on success
-        if: success()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            ✅ API Tests PASSED!
-            📦 Repository: ${{ github.repository }}
-            📝 Commit: ${{ github.event.head_commit.message }}
-            👤 Author: ${{ github.actor }}
-            🌿 Branch: ${{ github.ref_name }}
-            🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-      
-      - name: Send Telegram notification on failure
-        if: failure()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            ❌ API Tests FAILED!
-            📦 Repository: ${{ github.repository }}
-            📝 Commit: ${{ github.event.head_commit.message }}
-            👤 Author: ${{ github.actor }}
-            🌿 Branch: ${{ github.ref_name }}
-            🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Send Telegram notification
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            EMOJI="✅"
+            STATUS="PASSED"
+          else
+            EMOJI="❌"
+            STATUS="FAILED"
+          fi
+          MESSAGE="$EMOJI API Tests $STATUS%0A"
+          MESSAGE="$MESSAGE 📦 Repo: ${{ github.repository }}%0A"
+          MESSAGE="$MESSAGE 📝 Commit: ${{ github.event.head_commit.message }}%0A"
+          MESSAGE="$MESSAGE 👤 Author: ${{ github.actor }}%0A"
+          MESSAGE="$MESSAGE 🌿 Branch: ${{ github.ref_name }}%0A"
+          MESSAGE="$MESSAGE 🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d text="$MESSAGE"
