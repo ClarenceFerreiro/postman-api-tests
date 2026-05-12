@@ -22,20 +22,33 @@ jobs:
       
       - name: Run API tests
         id: api_tests
-        run: newman run simple-test.json
         continue-on-error: true
+        run: newman run simple-test.json
       
-      - name: Send Telegram notification
-        uses: eagle007/send-message-to-tegram-action@main
+      - name: Send Telegram notification on success
+        if: success()
+        uses: appleboy/telegram-action@master
         with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
           message: |
-            🧪 *API Tests Notification*
-            📦 Repo: ${{ github.repository }}
+            ✅ API Tests PASSED!
+            📦 Repository: ${{ github.repository }}
             📝 Commit: ${{ github.event.head_commit.message }}
             👤 Author: ${{ github.actor }}
             🌿 Branch: ${{ github.ref_name }}
-            ✅ Status: ${{ job.status }}
-            
-            🔗 [View details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      
+      - name: Send Telegram notification on failure
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ❌ API Tests FAILED!
+            📦 Repository: ${{ github.repository }}
+            📝 Commit: ${{ github.event.head_commit.message }}
+            👤 Author: ${{ github.actor }}
+            🌿 Branch: ${{ github.ref_name }}
+            🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
