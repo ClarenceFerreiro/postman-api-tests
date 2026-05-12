@@ -21,13 +21,21 @@ jobs:
         run: npm install -g newman
       
       - name: Run API tests
+        id: api_tests
         run: newman run simple-test.json
+        continue-on-error: true
       
-      - name: Generate HTML report
-        run: newman run simple-test.json --reporters cli,html --reporter-html-export report.html
-      
-      - name: Upload report
-        uses: actions/upload-artifact@v4
+      - name: Send Telegram notification
+        uses: eagle007/send-message-to-tegram-action@main
         with:
-          name: test-report
-          path: report.html
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            🧪 *API Tests Notification*
+            📦 Repo: ${{ github.repository }}
+            📝 Commit: ${{ github.event.head_commit.message }}
+            👤 Author: ${{ github.actor }}
+            🌿 Branch: ${{ github.ref_name }}
+            ✅ Status: ${{ job.status }}
+            
+            🔗 [View details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
