@@ -1,3 +1,5 @@
+![CI Status](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/test.yml/badge.svg)
+
 # Postman API Tests
 
 Мои автотесты для API в Postman. Демонстрация навыков автоматизации тестирования REST API.
