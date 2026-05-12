@@ -25,7 +25,7 @@ jobs:
         continue-on-error: true
         run: newman run simple-test.json
       
-      - name: Send Telegram notification
+      - name: Send ntfy notification
         if: always()
         run: |
           if [ "${{ job.status }}" = "success" ]; then
@@ -35,13 +35,8 @@ jobs:
             EMOJI="❌"
             STATUS="FAILED"
           fi
-          MESSAGE="$EMOJI API Tests $STATUS%0A"
-          MESSAGE="$MESSAGE 📦 Repo: ${{ github.repository }}%0A"
-          MESSAGE="$MESSAGE 📝 Commit: ${{ github.event.head_commit.message }}%0A"
-          MESSAGE="$MESSAGE 👤 Author: ${{ github.actor }}%0A"
-          MESSAGE="$MESSAGE 🌿 Branch: ${{ github.ref_name }}%0A"
-          MESSAGE="$MESSAGE 🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          
-          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
-            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-            -d text="$MESSAGE"
+          curl -H "Title: API Tests $STATUS" \
+               -H "Priority: default" \
+               -H "Tags: ${{ job.status == 'success' && 'white_check_mark' || 'x' }}" \
+               -d "$EMOJI API Tests $STATUS%0A📦 ${{ github.repository }}%0A📝 ${{ github.event.head_commit.message }}%0A👤 ${{ github.actor }}%0A🔗 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+               https://ntfy.sh/clarence_qa_tests
