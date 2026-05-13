@@ -32,6 +32,10 @@ jobs:
       run: |
         allure generate allure-results -o allure-report --clean
 
+    - name: Force refresh GitHub Pages
+      run: |
+        touch allure-report/.nojekyll
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
