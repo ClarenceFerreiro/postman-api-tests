@@ -25,9 +25,81 @@
 
 ### Локально (требуется Node.js)
 
-```bash
 # Установка Newman
 npm install -g newman
 
 # Запуск коллекции
 newman run my-collection.json
+
+## 📊 Отчёты Allure
+
+После каждого запуска генерируется и публикуется Allure Report:
+
+🔗 **https://clarenceferreiro.github.io/postman-api-tests/**
+
+Отчёт содержит:
+- Статус прохождения тестов
+- Время выполнения
+- Детальные шаги и проверки
+- Графики и историю
+
+---
+
+## 📁 Коллекции тестов
+
+| Файл | Описание |
+|------|----------|
+| `my-collection.json` | Основная коллекция (GET, POST запросы) |
+| `Auth Tests.json` | Тесты авторизации и Bearer Token |
+| `Login Tests.postman_collection.json` | Отдельные тесты логина |
+| `simple-test.json` | Простой тест для отладки |
+
+---
+
+## ⚙️ Технологии
+
+| Инструмент | Назначение |
+|------------|------------|
+| Postman | Разработка тестов |
+| Newman | Запуск тестов из CLI |
+| GitHub Actions | CI/CD автоматизация |
+| Allure Report | Визуализация результатов |
+| GitHub Pages | Хостинг отчётов |
+
+## 🔄 CI/CD Pipeline
+
+1. **Push** в репозиторий
+2. **GitHub Actions** запускает workflow
+3. **Newman** выполняет тесты
+4. **Allure** генерирует отчёт
+5. **GitHub Pages** публикует отчёт
+
+---
+
+## 📈 Статус проекта
+
+✅ Тесты проходят успешно  
+✅ Отчёты обновляются автоматически  
+✅ CI/CD полностью настроен  
+
+---
+
+## 📝 Планы развития
+
+- [x] Postman + Newman
+- [x] GitHub Actions CI/CD
+- [x] Allure Report
+- [ ] TypeScript + Supertest
+- [ ] Playwright E2E тесты
+
+---
+
+## 🔗 Полезные ссылки
+
+- [Allure Report (актуальный)](https://clarenceferreiro.github.io/postman-api-tests/)
+- [GitHub Actions (история запусков)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
+- [Репозиторий на GitHub](https://github.com/ClarenceFerreiro/postman-api-tests)
+
+---
+
+*Автотесты для API — демонстрация навыков автоматизации тестирования*
