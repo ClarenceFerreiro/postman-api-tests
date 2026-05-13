@@ -1,4 +1,5 @@
 ![CI Status](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/test.yml/badge.svg)
+[![Allure Report](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-report.yml/badge.svg)](https://clarenceferreiro.github.io/postman-api-tests/)
 
 # Postman API Tests
 
