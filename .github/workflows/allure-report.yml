@@ -32,9 +32,9 @@ jobs:
       run: |
         allure generate allure-results -o allure-report --clean
 
-    - name: Force refresh GitHub Pages
+    - name: Add timestamp to force refresh
       run: |
-        touch allure-report/.nojekyll
+        echo "Build time: $(date)" > allure-report/timestamp.txt
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
