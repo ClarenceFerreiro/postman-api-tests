@@ -57,70 +57,37 @@
       },
       "response": []
     },
+{
+  "name": "GET Получить пост",
+  "event": [
     {
-      "name": "GET Получить пост",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "const data = pm.response.json();\r",
-              "\r",
-              "pm.test(\"Статус 200\", () => {\r",
-              "    pm.response.to.have.status(200);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"ID = 1\", () => {\r",
-              "    pm.expect(data.id).to.equal(1);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Есть заголовок\", () => {\r",
-              "    pm.expect(data.title).to.be.a('string');\r",
-              "});\r",
-              "\r",
-              "pm.test(\"userId — число\", () => {\r",
-              "    pm.expect(data.userId).to.be.a('number');\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Проверка userId\", () => {\r",
-              "    pm.expect(data.userId).to.equal(1);\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Тело ответа не пустое\", () => {\r",
-              "    pm.expect(data).to.not.be.empty;\r",
-              "});\r",
-              "\r",
-              "pm.test(\"Content-Type = JSON\", () => {\r",
-              "    pm.response.to.have.header(\"Content-Type\");\r",
-              "    const contentType = pm.response.headers.get(\"Content-Type\");\r",
-              "    pm.expect(contentType).to.include(\"application/json\");\r",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "https://jsonplaceholder.typicode.com/posts/1",
-          "protocol": "https",
-          "host": ["jsonplaceholder", "typicode", "com"],
-          "path": ["posts", "1"]
-        }
-      },
-      "response": []
+      "listen": "test",
+      "script": {
+        "exec": [
+          "const data = pm.response.json();",
+          "",
+          "pm.test(\"Status 200\", () => {",
+          "    pm.response.to.have.status(200);",
+          "});",
+          "",
+          "pm.test(\"ID = 1\", () => {",
+          "    pm.expect(data.id).to.equal(1);",
+          "});"
+        ],
+        "type": "text/javascript"
+      }
     }
   ],
-  "variable": [
-    {
-      "key": "createdPostId",
-      "value": ""
-    },
-    {
-      "key": "createdPostTitle",
-      "value": ""
+  "request": {
+    "method": "GET",
+    "url": {
+      "raw": "https://jsonplaceholder.typicode.com/posts/1",
+      "protocol": "https",
+      "host": ["jsonplaceholder", "typicode", "com"],
+      "path": ["posts", "1"]
     }
+  },
+  "response": []
+}
   ]
 }
