@@ -78,19 +78,21 @@ npx playwright show-report
 
 ## 📁 Структура проекта
 
+```
 postman-api-tests/
 ├── .github/workflows/
-│ ├── allure-report.yml # Postman CI
-│ └── typescript-ci.yml # TypeScript CI
-├── api-tests-ts/ # TypeScript + Playwright тесты
-│ ├── api.test.js # Supertest API тесты
-│ ├── simple.test.js # Простой тест для проверки CI
-│ ├── playwright.config.ts # Конфигурация Playwright
-│ └── tests/ # E2E тесты Playwright
-├── docs/index.html # Главная страница отчётов
-├── my-collection.json # Postman коллекция (5 запросов)
+│   ├── allure-report.yml      # Postman CI
+│   └── typescript-ci.yml      # TypeScript CI
+├── api-tests-ts/              # TypeScript + Playwright тесты
+│   ├── api.test.js            # Supertest API тесты
+│   ├── simple.test.js         # Простой тест для проверки CI
+│   ├── playwright.config.ts   # Конфигурация Playwright
+│   └── tests/                 # E2E тесты Playwright
+├── docs/
+│   └── index.html             # Главная страница отчётов
+├── my-collection.json         # Postman коллекция (5 запросов)
 └── README.md
-
+```
 
 ## 🛠️ Технологии
 
