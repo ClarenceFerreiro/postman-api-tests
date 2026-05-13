@@ -1,8 +1,7 @@
 # Postman API Tests
 
-| Статус | Ссылка |
-|--------|--------|
-| [![Allure Report](https://img.shields.io/badge/📊-Allure%20Report-blue)](https://clarenceferreiro.github.io/postman-api-tests/) | [![CI/CD](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-report.yml/badge.svg)](https://github.com/ClarenceFerreiro/postman-api-tests/actions) |
+[![CI Status](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-report.yml/badge.svg)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
+[![Allure Report](https://img.shields.io/badge/📊-Allure%20Report-blue)](https://clarenceferreiro.github.io/postman-api-tests/)
 
 Мои автотесты для API в Postman. Демонстрация навыков автоматизации тестирования REST API.
 
