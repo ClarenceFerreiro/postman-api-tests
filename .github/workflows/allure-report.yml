@@ -27,27 +27,28 @@ jobs:
           -r allure \
           --reporter-allure-export allure-results
 
-    - name: Get Allure history
-      uses: actions/checkout@v4
+    - name: Upload Allure results
+      uses: actions/upload-artifact@v4
       if: always()
-      continue-on-error: true
       with:
-        ref: gh-pages
-        path: gh-pages
+        name: allure-results
+        path: allure-results/
+
+    - name: Install Allure CLI
+      run: |
+        sudo apt-add-repository -y ppa:qameta/allure
+        sudo apt update
+        sudo apt install -y allure
 
     - name: Generate Allure Report
-      uses: simple-elf/allure-report-action@v1.7
       if: always()
-      with:
-        allure_results: allure-results
-        allure_history: allure-history
-        keep_report: 40
+      run: |
+        allure generate allure-results -o allure-report --clean
 
-    - name: Deploy report to GitHub Pages
+    - name: Deploy to GitHub Pages
       if: always()
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: allure-history
-        destination_dir: .
+        publish_dir: allure-report
