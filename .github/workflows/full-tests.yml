@@ -1,0 +1,37 @@
+name: Full Test Suite
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Postman tests
+        run: |
+          npm install -g newman
+          newman run my-collection.json
+
+  typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run TypeScript tests
+        run: |
+          cd api-tests-ts
+          npm ci
+          npm test
+
+  playwright:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Playwright tests
+        run: |
+          cd api-tests-ts
+          npm ci
+          npx playwright install --with-deps
+          npx playwright test
