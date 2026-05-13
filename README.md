@@ -3,37 +3,31 @@
 [![CI Status](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-report.yml/badge.svg)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
 [![Allure Report](https://img.shields.io/badge/📊-Allure%20Report-blue)](https://clarenceferreiro.github.io/postman-api-tests/)
 
-Мои автотесты для API в Postman. Демонстрация навыков автоматизации тестирования REST API.
+Автотесты для REST API с использованием **Postman**, **Newman**, **GitHub Actions** и **Allure Report**.
 
 ---
 
-## 📁 Коллекции тестов
+## 📋 О проекте
 
-| Файл | Описание | Кол-во тестов |
-|------|----------|---------------|
-| `my-collection.json` | Базовые тесты для JSONPlaceholder | ✅ 9 |
-| `Auth Tests.json` | Тестирование авторизации (Bearer Token) | ✅ 7 |
-| `Login Tests.postman_collection.json` | Отдельные тесты логина | ✅ 2 |
+Проект демонстрирует навыки автоматизации тестирования API. Тесты написаны в Postman, запускаются через Newman в CI/CD пайплайне GitHub Actions, а отчёты публикуются на GitHub Pages с визуализацией в Allure.
 
-## ✅ Что тестируется
+---
 
-### Базовая коллекция (JSONPlaceholder)
-- `GET /posts/1` — статус 200, ID=1, типы данных, Content-Type
-- `GET /posts/999` — проверка 404 Not Found
-- `POST /posts` — создание нового поста
+## 🧪 Что тестируется
 
-### Авторизация (Postman Echo + Mock)
-- `POST /login` — получение токена
-- `GET /user` (с токеном) — успешный доступ, проверка токена
-- `GET /user` (без токена) — публичный эндпоинт, отсутствие токена
+- **GET /posts/1** — проверка статуса 200, ID, типа данных полей
+- **POST /posts** — создание нового поста
+- **Авторизация** — Bearer Token, получение и передача токена
+
+---
 
 ## 🚀 Запуск тестов
 
-### В Postman
-1. Импортируйте нужный `.json` файл
-2. Откройте коллекцию → **Run**
-3. Выберите запросы и нажмите **Run**
+### Локально (требуется Node.js)
 
-### Через Newman (CLI)
 ```bash
+# Установка Newman
+npm install -g newman
+
+# Запуск коллекции
 newman run my-collection.json
