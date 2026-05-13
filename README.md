@@ -33,10 +33,7 @@
 
 ### Postman (локально)
 
-``bash
+```bash
 npm install -g newman
 newman run my-collection.json
-
----
-
-## TypeScript + Supertest
+```
