@@ -1,5 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  reporters: ['default', 'jest-allure']
+  testMatch: ['**/*.test.js', '**/*.spec.js'],
+  collectCoverageFrom: ['**/*.js'],
+  coverageDirectory: 'coverage'
 };
