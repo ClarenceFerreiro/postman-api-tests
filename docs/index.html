@@ -1,12 +1,104 @@
 <!DOCTYPE html>
-<html>
-<head><title>Test Reports</title></head>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Reports - API Automation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .report-card {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: transform 0.2s;
+        }
+        .report-card:hover {
+            transform: translateX(10px);
+            background: #e8e8e8;
+        }
+        .report-card h2 {
+            margin: 0 0 10px 0;
+            color: #667eea;
+        }
+        .report-card p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
 <body>
-  <h1>📊 All Test Reports</h1>
-  <ul>
-    <li><a href="allure-newman/index.html">Postman + Newman (Allure)</a></li>
-    <li><a href="allure-ts/index.html">TypeScript + Supertest (Allure)</a></li>
-    <li><a href="playwright/index.html">Playwright E2E (HTML Report)</a></li>
-  </ul>
+    <div class="container">
+        <h1>📊 Test Reports Dashboard</h1>
+        <p>Автоматизация тестирования API и E2E</p>
+
+        <a href="allure-newman/index.html">
+            <div class="report-card">
+                <h2>📮 Postman + Newman</h2>
+                <p>API тесты через Postman коллекции</p>
+                <p><strong>Отчёт:</strong> Allure Framework</p>
+                <span class="badge">✅ REST API tests</span>
+            </div>
+        </a>
+
+        <a href="allure-ts/index.html">
+            <div class="report-card">
+                <h2>💙 TypeScript + Supertest</h2>
+                <p>Программные API тесты</p>
+                <p><strong>Отчёт:</strong> Allure Framework</p>
+                <span class="badge">✅ Jest + TypeScript</span>
+            </div>
+        </a>
+
+        <a href="playwright/index.html">
+            <div class="report-card">
+                <h2>🎭 Playwright E2E</h2>
+                <p>End-to-end тестирование UI</p>
+                <p><strong>Отчёт:</strong> Playwright HTML Reporter</p>
+                <span class="badge">✅ Chromium • Firefox • WebKit</span>
+            </div>
+        </a>
+
+        <div class="footer">
+            🔄 Автоматический запуск при каждом push в main • GitHub Actions
+        </div>
+    </div>
 </body>
 </html>
