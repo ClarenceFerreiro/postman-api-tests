@@ -22,6 +22,11 @@ jobs:
         npm install -g newman newman-reporter-allure
         npm install -g allure-commandline
 
+    - name: Clean cache and old results
+      run: |
+        rm -rf allure-results allure-report
+        npm cache clean --force
+
     - name: Run API tests
       run: |
         newman run my-collection.json \
@@ -43,3 +48,4 @@ jobs:
         publish_branch: gh-pages
         publish_dir: allure-report
         keep_files: false
+        force_orphan: true
