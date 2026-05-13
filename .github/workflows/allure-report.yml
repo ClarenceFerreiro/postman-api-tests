@@ -8,26 +8,25 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-    
+
     - name: Install Newman & Allure
       run: |
         npm install -g newman newman-reporter-allure
-    
+
     - name: Run API tests
       run: |
-        newman run collection.json \
-          -e environment.json \
+        newman run my-collection.json \
           -r allure \
           --reporter-allure-export allure-results
-    
+
     - name: Get Allure history
       uses: actions/checkout@v4
       if: always()
@@ -35,7 +34,7 @@ jobs:
       with:
         ref: gh-pages
         path: gh-pages
-    
+
     - name: Generate Allure Report
       uses: simple-elf/allure-report-action@v1.7
       if: always()
@@ -43,7 +42,7 @@ jobs:
         allure_results: allure-results
         allure_history: allure-history
         keep_report: 40
-    
+
     - name: Deploy report to GitHub Pages
       if: always()
       uses: peaceiris/actions-gh-pages@v3
