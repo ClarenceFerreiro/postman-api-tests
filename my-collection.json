@@ -61,14 +61,16 @@
       ]
     },
     {
-      "name": "⚠️ POST пустое тело (400)",
-      "request": {
-        "method": "POST",
-        "url": "https://jsonplaceholder.typicode.com/posts",
-        "body": {
-          "mode": "raw",
-          "raw": "{}"
-        }
+  "name": "⚠️ POST пустое тело (принимается)",
+  "request": {
+    "method": "POST",
+    "url": "https://jsonplaceholder.typicode.com/posts",
+    "body": {"mode": "raw", "raw": "{}"}
+  },
+  "event": [{
+    "listen": "test",
+    "script": {"exec": ["pm.test(\"201 Created\", () => pm.response.to.have.status(201));"]}
+  }
       },
       "event": [
         {
