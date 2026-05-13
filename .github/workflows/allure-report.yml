@@ -8,6 +8,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
 
     steps:
     - uses: actions/checkout@v4
@@ -17,9 +20,10 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install Newman
+    - name: Install Newman & Allure
       run: |
         npm install -g newman newman-reporter-allure
+        npm install -g allure-commandline
 
     - name: Run API tests
       run: |
@@ -27,20 +31,11 @@ jobs:
           -r allure \
           --reporter-allure-export allure-results
 
-    - name: Upload Allure results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: allure-results
-        path: allure-results/
-
-    - name: Generate Allure Report using Docker
-      if: always()
+    - name: Generate Allure Report
       run: |
-        docker run --rm -v $(pwd)/allure-results:/allure-results -v $(pwd)/allure-report:/allure-report frankescobar/allure generate /allure-results -o /allure-report --clean
+        allure generate allure-results -o allure-report --clean
 
     - name: Deploy to GitHub Pages
-      if: always()
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
