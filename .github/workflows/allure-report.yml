@@ -42,3 +42,4 @@ jobs:
         github_token: ${{ secrets.PAT_TOKEN }}
         publish_branch: gh-pages
         publish_dir: allure-report
+        keep_files: false
