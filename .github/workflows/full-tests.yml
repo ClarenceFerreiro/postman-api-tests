@@ -6,15 +6,31 @@ on:
   workflow_dispatch:
 
 jobs:
+  # ==================== POSTMAN / NEWMAN ====================
   newman:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Postman tests
+
+      - name: Install Newman & Allure Reporter
         run: |
-          npm install -g newman newman-reporter-allure
-          newman run my-collection.json -r allure --reporter-allure-export newman-results
-      - name: Deploy Newman Allure
+          npm install -g newman
+          npm install -g newman-reporter-allure
+
+      - name: Run Postman Tests
+        run: |
+          newman run my-collection.json \
+            -r allure \
+            --reporter-allure-export newman-results
+
+      - name: Upload Newman Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: newman-results
+          path: newman-results/
+
+      - name: Deploy Newman Allure Report
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
@@ -22,34 +38,75 @@ jobs:
           destination_dir: allure-newman
           keep_files: true
 
+  # ==================== TYPESCRIPT + SUPERTEST ====================
   typescript:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run TypeScript tests
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
         run: |
           cd api-tests-ts
           npm ci
-          npm test -- --allure
-      - name: Deploy TS Allure
+
+      - name: Run TypeScript Tests with Allure
+        run: |
+          cd api-tests-ts
+          npm test
+        continue-on-error: false
+
+      - name: Generate Allure Report for TypeScript
+        run: |
+          cd api-tests-ts
+          npx allure-commandline generate allure-results -o allure-report --clean || true
+
+      - name: Deploy TypeScript Allure Report
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
-          publish_dir: ./api-tests-ts/allure-results
+          publish_dir: ./api-tests-ts/allure-report
           destination_dir: allure-ts
           keep_files: true
 
+  # ==================== PLAYWRIGHT ====================
   playwright:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Playwright tests
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
         run: |
           cd api-tests-ts
           npm ci
+
+      - name: Install Playwright Browsers
+        run: |
+          cd api-tests-ts
           npx playwright install --with-deps
+
+      - name: Run Playwright Tests
+        run: |
+          cd api-tests-ts
           npx playwright test
-      - name: Deploy Playwright report
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: api-tests-ts/playwright-report/
+
+      - name: Deploy Playwright HTML Report
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
