@@ -6,101 +6,28 @@
   "item": [
     {
       "name": "✅ GET пост ID=1 (успех)",
-      "request": {
-        "method": "GET",
-        "url": "https://jsonplaceholder.typicode.com/posts/1"
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"200 OK\", () => pm.response.to.have.status(200));",
-              "pm.test(\"ID=1\", () => pm.expect(pm.response.json().id).to.equal(1));"
-            ]
-          }
-        }
-      ]
+      "request": {"method": "GET", "url": "https://jsonplaceholder.typicode.com/posts/1"},
+      "event": [{"listen": "test", "script": {"exec": ["pm.test(\"200 OK\", () => pm.response.to.have.status(200));", "pm.test(\"ID=1\", () => pm.expect(pm.response.json().id).to.equal(1));"]}}]
     },
     {
       "name": "❌ GET пост ID=999 (404)",
-      "request": {
-        "method": "GET",
-        "url": "https://jsonplaceholder.typicode.com/posts/999"
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"404 Not Found\", () => pm.response.to.have.status(404));"
-            ]
-          }
-        }
-      ]
+      "request": {"method": "GET", "url": "https://jsonplaceholder.typicode.com/posts/999"},
+      "event": [{"listen": "test", "script": {"exec": ["pm.test(\"404 Not Found\", () => pm.response.to.have.status(404));"]}}]
     },
     {
       "name": "📝 POST новый пост",
-      "request": {
-        "method": "POST",
-        "url": "https://jsonplaceholder.typicode.com/posts",
-        "body": {
-          "mode": "raw",
-          "raw": "{\"title\":\"Тест\",\"body\":\"Тело\",\"userId\":1}"
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"201 Created\", () => pm.response.to.have.status(201));"
-            ]
-          }
-        }
-      ]
+      "request": {"method": "POST", "url": "https://jsonplaceholder.typicode.com/posts", "body": {"mode": "raw", "raw": "{\"title\":\"Тест\",\"body\":\"Тело\",\"userId\":1}"}},
+      "event": [{"listen": "test", "script": {"exec": ["pm.test(\"201 Created\", () => pm.response.to.have.status(201));"]}}]
     },
     {
-  "name": "⚠️ POST пустое тело (принимается)",
-  "request": {
-    "method": "POST",
-    "url": "https://jsonplaceholder.typicode.com/posts",
-    "body": {"mode": "raw", "raw": "{}"}
-  },
-  "event": [{
-    "listen": "test",
-    "script": {"exec": ["pm.test(\"201 Created\", () => pm.response.to.have.status(201));"]}
-  }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"400 Bad Request\", () => pm.response.to.have.status(400));"
-            ]
-          }
-        }
-      ]
+      "name": "⚠️ POST пустое тело (принимается)",
+      "request": {"method": "POST", "url": "https://jsonplaceholder.typicode.com/posts", "body": {"mode": "raw", "raw": "{}"}},
+      "event": [{"listen": "test", "script": {"exec": ["pm.test(\"201 Created\", () => pm.response.to.have.status(201));"]}}]
     },
     {
       "name": "🔍 GET посты userId=1",
-      "request": {
-        "method": "GET",
-        "url": "https://jsonplaceholder.typicode.com/posts?userId=1"
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"200 OK\", () => pm.response.to.have.status(200));",
-              "const res = pm.response.json();",
-              "pm.test(\"Все посты принадлежат userId=1\", () => res.every(p => p.userId === 1));"
-            ]
-          }
-        }
-      ]
+      "request": {"method": "GET", "url": "https://jsonplaceholder.typicode.com/posts?userId=1"},
+      "event": [{"listen": "test", "script": {"exec": ["pm.test(\"200 OK\", () => pm.response.to.have.status(200));", "const res = pm.response.json();", "pm.test(\"Все посты принадлежат userId=1\", () => res.every(p => p.userId === 1));"]}}]
     }
   ]
 }
