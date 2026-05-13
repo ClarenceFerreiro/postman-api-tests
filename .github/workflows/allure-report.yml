@@ -24,7 +24,7 @@ jobs:
 
     - name: Run API tests
       run: |
-        newman run "API Tests.json" \
+        newman run simple-test.json \
           -r cli,allure \
           --reporter-allure-export allure-results
 
