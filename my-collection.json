@@ -57,37 +57,37 @@
       },
       "response": []
     },
-{
-  "name": "GET Получить пост",
-  "event": [
     {
-      "listen": "test",
-      "script": {
-        "exec": [
-          "const data = pm.response.json();",
-          "",
-          "pm.test(\"Status 200\", () => {",
-          "    pm.response.to.have.status(200);",
-          "});",
-          "",
-          "pm.test(\"ID = 1\", () => {",
-          "    pm.expect(data.id).to.equal(1);",
-          "});"
-        ],
-        "type": "text/javascript"
-      }
+      "name": "GET Получить пост",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const data = pm.response.json();",
+              "",
+              "pm.test(\"Status 200\", () => {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"ID = 1\", () => {",
+              "    pm.expect(data.id).to.equal(1);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts/1",
+          "protocol": "https",
+          "host": ["jsonplaceholder", "typicode", "com"],
+          "path": ["posts", "1"]
+        }
+      },
+      "response": []
     }
-  ],
-  "request": {
-    "method": "GET",
-    "url": {
-      "raw": "https://jsonplaceholder.typicode.com/posts/1",
-      "protocol": "https",
-      "host": ["jsonplaceholder", "typicode", "com"],
-      "path": ["posts", "1"]
-    }
-  },
-  "response": []
-}
   ]
 }
