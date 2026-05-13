@@ -21,12 +21,12 @@ jobs:
       run: |
         npm install -g newman newman-reporter-allure
         npm install -g allure-commandline
-
+        
     - name: Run API tests
       run: |
-        newman run my-collection.json \
-          -r allure \
-          --reporter-allure-export allure-results
+    newman run my-collection.json \
+      -r cli,allure \
+      --reporter-allure-export allure-results
 
     - name: Generate Allure Report
       run: |
