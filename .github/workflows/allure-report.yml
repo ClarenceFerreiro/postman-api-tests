@@ -17,7 +17,7 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install Newman & Allure
+    - name: Install Newman
       run: |
         npm install -g newman newman-reporter-allure
 
@@ -34,16 +34,10 @@ jobs:
         name: allure-results
         path: allure-results/
 
-    - name: Install Allure CLI
-      run: |
-        sudo apt-add-repository -y ppa:qameta/allure
-        sudo apt update
-        sudo apt install -y allure
-
-    - name: Generate Allure Report
+    - name: Generate Allure Report using Docker
       if: always()
       run: |
-        allure generate allure-results -o allure-report --clean
+        docker run --rm -v $(pwd)/allure-results:/allure-results -v $(pwd)/allure-report:/allure-report frankescobar/allure generate /allure-results -o /allure-report --clean
 
     - name: Deploy to GitHub Pages
       if: always()
