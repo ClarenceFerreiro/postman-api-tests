@@ -22,10 +22,11 @@ jobs:
           cd api-tests-ts
           npm install
 
-      - name: Install Playwright Browsers
+      - name: Install Playwright
         run: |
           cd api-tests-ts
-          npx playwright install --with-deps
+          npm install -D @playwright/test
+          npx playwright install
 
       - name: Run Playwright tests
         run: |
