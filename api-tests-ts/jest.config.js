@@ -3,5 +3,11 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/*.test.js', '**/*.spec.js'],
   collectCoverageFrom: ['**/*.js'],
-  coverageDirectory: 'coverage'
+  coverageDirectory: 'coverage',
+  reporters: [
+    'default',
+    ['allure-jest', {
+      outputDir: 'allure-results'
+    }]
+  ]
 };
