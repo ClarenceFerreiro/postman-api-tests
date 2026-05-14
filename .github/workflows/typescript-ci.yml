@@ -21,17 +21,25 @@ jobs:
         run: |
           cd api-tests-ts
           npm install
-          npm install --save-dev allure-jest
 
-      - name: Run TypeScript tests with Allure
+      - name: Run TypeScript tests
         run: |
           cd api-tests-ts
           npm test
 
-      - name: Generate Allure Report
+      - name: Install Allure Commandline
+        run: |
+          npm install -g allure-commandline
+
+      - name: Create Allure results directory
+        run: |
+          mkdir -p api-tests-ts/allure-results
+
+      - name: Generate Allure Report from test output
         run: |
           cd api-tests-ts
-          npx allure-commandline generate allure-results -o allure-report --clean || true
+          allure generate allure-results -o allure-report --clean || echo "No results yet, creating empty report"
+          echo "{}" > allure-results/environment.json
 
       - name: Deploy TypeScript Allure Report
         uses: peaceiris/actions-gh-pages@v4
