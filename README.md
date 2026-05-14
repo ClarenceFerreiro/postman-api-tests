@@ -107,14 +107,17 @@ postman-api-tests/
 | GitHub Pages | Хостинг отчётов |
 
 ## 📊 Полный стек автоматизации
-
-| Этап | Инструменты | Результат | Доступ |
-|------|-------------|-----------|--------|
-| **API тесты** | Postman + Newman | Allure Report | [GitHub Pages](https://clarenceferreiro.github.io/postman-api-tests/) |
-| **Программные тесты** | TypeScript + Supertest + Jest | Allure Report | (настройка) |
-| **E2E тесты** | Playwright | HTML Report | [GitHub Pages](https://clarenceferreiro.github.io/postman-api-tests/playwright/) |
-| **Управление** | Telegram Bot | Команды `/status`, `/report`, `/run` | [@ваш_бот](https://t.me/ваш_бот) |
-
+```
+Postman + Newman ──→ Allure Report ──→ GitHub Pages
+↓
+TypeScript + Supertest ──→ Jest ──→ Allure Report
+↓
+Playwright ──→ HTML Report ──→ GitHub Pages
+↓
+Telegram Bot
+↓
+/status, /report, /run
+```
 ## 📈 Итоговые результаты
 
 ✅ Настроен CI для Postman тестов с Allure отчётами  
