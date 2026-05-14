@@ -51,3 +51,13 @@ jobs:
         keep_files: false
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Send Telegram notification
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: |
+          ✅ Postman API Tests passed!
+          📊 Allure report: https://clarenceferreiro.github.io/postman-api-tests/allure/
+          🕒 ${{ github.event.head_commit.timestamp }}
