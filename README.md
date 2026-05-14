@@ -52,9 +52,8 @@ npx playwright test
 npx playwright show-report
 ```
 
-```markdown
 ## 📊 Allure Report
-```
+
 После каждого push автоматически генерируется и публикуется Allure Report:
 
 🔗 **https://clarenceferreiro.github.io/postman-api-tests/**
