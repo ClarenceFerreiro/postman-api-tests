@@ -22,7 +22,21 @@ jobs:
           cd api-tests-ts
           npm install
 
-      - name: Run TypeScript tests
+      - name: Run TypeScript tests with Allure
         run: |
           cd api-tests-ts
           npm test
+
+      - name: Generate Allure Report
+        run: |
+          cd api-tests-ts
+          npx allure-commandline generate allure-results -o allure-report --clean || true
+
+      - name: Deploy TypeScript Allure Report
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: api-tests-ts/allure-report
+          destination_dir: allure-ts
+          keep_files: true
