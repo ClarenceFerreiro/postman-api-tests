@@ -73,6 +73,7 @@ npx playwright show-report
 |----------|---------|------------|
 | `Allure Report` | push в main | Запускает Postman тесты → генерирует Allure отчёт → деплой на GitHub Pages |
 | `TypeScript API Tests` | push в main | Устанавливает зависимости → запускает Jest → проверяет API через Supertest |
+| `Playwright E2E Tests` | push в main | Устанавливает Playwright и браузеры → запускает E2E тесты → публикует HTML отчёт |
 
 ---
 
