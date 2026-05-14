@@ -7,13 +7,14 @@
         body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f0f2f5; }
         .container { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         h1 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 20px; }
-        .report-card { background: #f8f9fa; border-radius: 12px; padding: 20px; margin: 20px 0; transition: 0.2s; border: 1px solid #dee2e6; }
-        .report-card:hover { transform: translateX(8px); background: #e9ecef; }
+        .report-card { background: #f8f9fa; border-radius: 12px; padding: 20px; margin: 20px 0; transition: 0.2s; border: 1px solid #dee2e6; cursor: pointer; }
+        .report-card:hover { transform: translateX(8px); background: #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .report-card h2 { margin: 0 0 10px; color: #2980b9; }
         .badge { display: inline-block; background: #27ae60; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-top: 10px; }
-        .disabled { opacity: 0.6; pointer-events: none; background: #e2e3e5; }
+        .disabled { opacity: 0.6; cursor: default; }
+        .disabled:hover { transform: none; background: #f8f9fa; box-shadow: none; }
         .footer { margin-top: 30px; text-align: center; color: #6c757d; font-size: 13px; }
-        a { text-decoration: none; color: inherit; }
+        a { text-decoration: none; color: inherit; display: block; }
     </style>
 </head>
 <body>
@@ -22,7 +23,7 @@
     <p>Автоматизация тестирования API и E2E</p>
 
     <!-- Postman + Allure (РАБОТАЕТ) -->
-    <a href="https://clarenceferreiro.github.io/postman-api-tests/">
+    <a href="https://clarenceferreiro.github.io/postman-api-tests/index.html">
         <div class="report-card">
             <h2>📮 Postman + Newman</h2>
             <p>API тесты через Postman коллекции</p>
@@ -31,7 +32,7 @@
         </div>
     </a>
 
-    <!-- TypeScript + Allure (пока нет, заглушка) -->
+    <!-- TypeScript + Allure (пока нет) -->
     <div class="report-card disabled">
         <h2>💙 TypeScript + Supertest</h2>
         <p>Программные API тесты</p>
