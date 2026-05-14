@@ -21,6 +21,7 @@ jobs:
         run: |
           cd api-tests-ts
           npm install
+          npm install --save-dev allure-jest
 
       - name: Run TypeScript tests with Allure
         run: |
