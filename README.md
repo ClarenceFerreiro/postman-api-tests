@@ -106,7 +106,7 @@ postman-api-tests/
 | GitHub Actions | CI/CD автоматизация |
 | GitHub Pages | Хостинг отчётов |
 
-## 📈 Итоги сегодняшней работы
+## 📈 Итоговые результаты
 
 ✅ Настроен CI для Postman тестов с Allure отчётами  
 ✅ Добавлен CI для TypeScript + Supertest  
@@ -132,7 +132,7 @@ postman-api-tests/
 - [x] Playwright E2E тесты
 - [x] GitHub Actions CI/CD
 - [x] GitHub Pages для отчётов
-- [ ] Добавить Playwright в CI
+- [x] Добавить Playwright в CI
 - [ ] Настроить уведомления в Telegram
 - [ ] Написать нагрузочные тесты (k6)
 
