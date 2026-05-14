@@ -1,0 +1,11 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install",
+    "startCommand": "node bot.js"
+  },
+  "deploy": {
+    "startCommand": "node bot.js",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}
