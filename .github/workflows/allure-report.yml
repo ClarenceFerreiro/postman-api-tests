@@ -47,6 +47,7 @@ jobs:
         github_token: ${{ secrets.PAT_TOKEN }}
         publish_branch: gh-pages
         publish_dir: allure-report
+        destination_dir: allure
         keep_files: false
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
