@@ -1,11 +1,10 @@
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "cd telegram-bot && npm install",
-    "startCommand": "cd telegram-bot && node bot.js"
+    "buildCommand": "npm install",
+    "startCommand": "node bot.js"
   },
   "deploy": {
-    "startCommand": "cd telegram-bot && node bot.js",
-    "restartPolicyType": "ON_FAILURE"
+    "startCommand": "node bot.js"
   }
 }
