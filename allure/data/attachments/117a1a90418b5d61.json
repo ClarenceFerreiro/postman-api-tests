@@ -1,10 +1,10 @@
 {
-    "Date": "Thu, 14 May 2026 08:15:19 GMT",
+    "Date": "Thu, 14 May 2026 08:23:34 GMT",
     "Content-Type": "application/json; charset=utf-8",
     "Transfer-Encoding": "chunked",
     "Connection": "keep-alive",
     "access-control-allow-credentials": "true",
-    "cache-control": "max-age=43200",
+    "Cache-Control": "max-age=43200",
     "etag": "W/\"124-yiKdLzqO5gfBrJFrcdJ8Yq0LGnU\"",
     "expires": "-1",
     "nel": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}",
@@ -20,9 +20,9 @@
     "x-ratelimit-limit": "1000",
     "x-ratelimit-remaining": "0",
     "x-ratelimit-reset": "1778159036",
-    "Age": "552",
+    "Age": "12026",
     "cf-cache-status": "HIT",
     "Content-Encoding": "br",
-    "CF-RAY": "9fb87451cf013e97-IAD",
+    "CF-RAY": "9fb880663fd0825d-IAD",
     "alt-svc": "h3=\":443\"; ma=86400"
 }
