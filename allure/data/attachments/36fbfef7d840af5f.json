@@ -1,5 +1,5 @@
 {
-    "Date": "Thu, 04 Jun 2026 15:22:52 GMT",
+    "Date": "Thu, 04 Jun 2026 15:25:14 GMT",
     "Content-Type": "application/json; charset=utf-8",
     "Content-Length": "2",
     "Connection": "keep-alive",
@@ -19,7 +19,8 @@
     "x-ratelimit-limit": "1000",
     "x-ratelimit-remaining": "999",
     "x-ratelimit-reset": "1780586607",
-    "cf-cache-status": "EXPIRED",
-    "CF-RAY": "a067ef7f2805d97f-DFW",
+    "Age": "141",
+    "cf-cache-status": "HIT",
+    "CF-RAY": "a067f2f38fab69cc-DFW",
     "alt-svc": "h3=\":443\"; ma=86400"
 }
