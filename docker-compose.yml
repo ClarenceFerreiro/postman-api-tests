@@ -2,20 +2,19 @@ version: '3.8'
 
 services:
   mock-api:
-    image: clue/json-server
+    image: node:20-alpine
     container_name: mock-api
     ports:
       - "3000:80"
     volumes:
-      - ./mock-api/db.json:/data/db.json
-      - ./mock-api/middleware.js:/data/middleware.js
-      - ./mock-api/routes.json:/data/routes.json
+      - ./mock-api:/app/mock
+    working_dir: /app
     command: >
       sh -c "npm install -g json-server@0.17.4 &&
-             json-server --watch /data/db.json 
-             --port 80 --host 0.0.0.0 
-             --middlewares /data/middleware.js
-             --routes /data/routes.json"
+             json-server --watch /app/mock/db.json
+             --port 80 --host 0.0.0.0
+             --middlewares /app/mock/middleware.js
+             --routes /app/mock/routes.json"
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:80/posts/1"]
       interval: 5s
@@ -34,7 +33,7 @@ services:
       - BASE_URL=http://mock-api:80
       - TEST_ENV=mock
     command: >
-      sh -c "npm install && TEST_ENV=mock npm test -- --testNamePattern='Mock-Specific'"
+      sh -c "npm install && TEST_ENV=mock npx jest --testNamePattern='Mock-Specific'"
     depends_on:
       mock-api:
         condition: service_healthy
