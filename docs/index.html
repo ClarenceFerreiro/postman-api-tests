@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test Reports – API Automation</title>
+    <title>Test Reports — API Automation</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f0f2f5; }
         .container { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
@@ -11,8 +11,6 @@
         .report-card:hover { transform: translateX(8px); background: #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .report-card h2 { margin: 0 0 10px; color: #2980b9; }
         .badge { display: inline-block; background: #27ae60; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-top: 10px; }
-        .disabled { opacity: 0.6; cursor: default; }
-        .disabled:hover { transform: none; background: #f8f9fa; box-shadow: none; }
         .footer { margin-top: 30px; text-align: center; color: #6c757d; font-size: 13px; }
         a { text-decoration: none; color: inherit; display: block; }
     </style>
@@ -20,38 +18,28 @@
 <body>
 <div class="container">
     <h1>📊 Test Reports Dashboard</h1>
-    <p>Автоматизация тестирования API и E2E</p>
+    <p>API Automation Portfolio — v2.1</p>
 
-    <!-- Postman + Allure (РАБОТАЕТ) -->
-    <a href="https://clarenceferreiro.github.io/postman-api-tests/index.html">
+    <!-- Postman + Allure -->
+    <a href="./allure/index.html">
         <div class="report-card">
             <h2>📮 Postman + Newman</h2>
-            <p>API тесты через Postman коллекции</p>
-            <p><strong>Отчёт:</strong> Allure Framework</p>
-            <span class="badge">✅ 5 тестов • 7 проверок</span>
+            <p>Collection-based API tests with Allure reporting</p>
+            <span class="badge">✅ 5 requests • 7 checks</span>
         </div>
     </a>
 
-        <!-- TypeScript + Allure (временно без отчёта) -->
-    <div class="report-card disabled">
-        <h2>💙 TypeScript + Supertest</h2>
-        <p>Программные API тесты</p>
-        <p><strong>Отчёт:</strong> Allure Framework (настройка)</p>
-        <span class="badge" style="background:#95a5a6;">⏳ В процессе</span>
-    </div>
-    
-    <!-- Playwright E2E (РАБОТАЕТ в CI) -->
-    <a href="https://clarenceferreiro.github.io/postman-api-tests/playwright/">
+    <!-- TypeScript + Allure -->
+    <a href="./allure-ts/index.html">
         <div class="report-card">
-            <h2>🎭 Playwright E2E</h2>
-            <p>End-to-end тестирование UI</p>
-            <p><strong>Отчёт:</strong> Playwright HTML Reporter</p>
-            <span class="badge">✅ 4 теста • Chromium/Firefox</span>
+            <h2>💙 TypeScript + Supertest + AJV</h2>
+            <p>30+ programmatic API tests with data-driven patterns</p>
+            <span class="badge">✅ 30+ cases • JSON Schema • CI/CD</span>
         </div>
     </a>
 
     <div class="footer">
-        🔄 Автоматический запуск при push в main • GitHub Actions
+        🔄 Auto-deployed via GitHub Actions on every push to main
     </div>
 </div>
 </body>
