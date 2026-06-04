@@ -11,7 +11,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
-    "test:allure": "jest --reporters=default --reporters=allure",
+    "test:mock": "TEST_ENV=mock jest --testNamePattern='Mock-Specific'",
     "lint": "eslint src/**/*.ts",
     "typecheck": "tsc --noEmit"
   },

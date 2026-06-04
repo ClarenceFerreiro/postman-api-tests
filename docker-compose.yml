@@ -1,42 +1,46 @@
-version: "3.8"
+version: '3.8'
 
 services:
   mock-api:
     image: clue/json-server
-    container_name: json-server-mock
+    container_name: mock-api
     ports:
       - "3000:80"
     volumes:
-      - ./mock-api:/data
-    environment:
-      - JSON_SERVER_PORT=80
+      - ./mock-api/db.json:/data/db.json
+      - ./mock-api/middleware.js:/data/middleware.js
+      - ./mock-api/routes.json:/data/routes.json
+    command: >
+      sh -c "npm install -g json-server@0.17.4 &&
+             json-server --watch /data/db.json 
+             --port 80 --host 0.0.0.0 
+             --middlewares /data/middleware.js
+             --routes /data/routes.json"
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:80/posts"]
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:80/posts/1"]
       interval: 5s
       timeout: 3s
       retries: 5
+      start_period: 5s
+    networks:
+      - test-network
 
   api-tests:
     image: node:20-alpine
-    container_name: api-tests-ts
     working_dir: /app
     volumes:
       - ./api-tests-ts:/app
     environment:
       - BASE_URL=http://mock-api:80
+      - TEST_ENV=mock
+    command: >
+      sh -c "npm install && TEST_ENV=mock npm test -- --testNamePattern='Mock-Specific'"
     depends_on:
       mock-api:
         condition: service_healthy
-    command: ["sh", "-c", "npm install && npm run test:allure"]
+    networks:
+      - test-network
 
-  k6-load-tests:
-    image: grafana/k6:latest
-    container_name: k6-load
-    volumes:
-      - ./k6:/k6
-    environment:
-      - API_BASE_URL=http://mock-api:80
-    depends_on:
-      mock-api:
-        condition: service_healthy
-    command: ["run", "/k6/load-test.js"]
+networks:
+  test-network:
+    driver: bridge

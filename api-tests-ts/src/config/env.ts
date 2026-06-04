@@ -16,6 +16,7 @@ export const config = {
     warning: parseInt(process.env.PERF_WARNING_MS || '500', 10),        // 200-500ms: acceptable
     failure: parseInt(process.env.PERF_FAILURE_MS || '1000', 10),       // >1000ms: failed
   },
+  isMock: process.env.TEST_ENV === 'mock',
   testData: {
     validUserId: 1,
     invalidUserId: 999999,

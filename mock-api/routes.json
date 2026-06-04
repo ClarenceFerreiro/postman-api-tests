@@ -1,0 +1,4 @@
+[
+  { "id": "custom-1", "route": "/health", "method": "GET", "response": { "status": "ok", "version": "mock-1.0.0" } },
+  { "rewrite": "/api/v2/*", "destination": "/$1" }
+]
