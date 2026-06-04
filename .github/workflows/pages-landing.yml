@@ -1,0 +1,39 @@
+name: Deploy Landing Page to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy-landing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify docs/index.html exists
+        run: |
+          ls -la docs/
+          cat docs/index.html | head -20
+
+      - name: Deploy Landing Page
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: docs
+          keep_files: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Summary
+        run: |
+          echo "✅ Landing page deployed to https://clarenceferreiro.github.io/postman-api-tests/"
+          echo "Links:"
+          echo "  - https://clarenceferreiro.github.io/postman-api-tests/allure/"
+          echo "  - https://clarenceferreiro.github.io/postman-api-tests/allure-ts/"
