@@ -1,8 +1,8 @@
 # API Test Automation Suite
 
-REST API automation portfolio demonstrating **data-driven testing**, **JSON Schema validation**, and **parallel CI execution**.
+REST API automation suite demonstrating **data-driven testing**, **JSON Schema validation**, and **parallel CI execution**.
 
-📘 **Детальный справочник:** [QA-HANDBOOK.md](./QA-HANDBOOK.md) — словарь терминов, архитектура, скрипты для собеседований.
+📘 **Детальный справочник:** [QA-HANDBOOK.md](./QA-HANDBOOK.md) — словарь терминов, архитектура, troubleshooting.
 
 [![Allure Report](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-report.yml/badge.svg)](https://clarenceferreiro.github.io/postman-api-tests/)
 [![TypeScript Tests v2](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/typescript-ci-v2.yml/badge.svg)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
@@ -227,4 +227,4 @@ Bot hosted on **Railway** — receives CI notifications and test reports.
 
 ---
 
-*Portfolio for QA automation roles. Built with strict TypeScript, data-driven patterns, and CI-first mindset.*
+*Internal QA automation reference. Built with strict TypeScript, data-driven patterns, and CI-first mindset.*
