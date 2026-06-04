@@ -15,12 +15,6 @@ services:
              --port 80 --host 0.0.0.0
              --middlewares /app/mock/middleware.js
              --routes /app/mock/routes.json"
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:80/posts/1"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-      start_period: 5s
     networks:
       - test-network
 
@@ -33,10 +27,15 @@ services:
       - BASE_URL=http://mock-api:80
       - TEST_ENV=mock
     command: >
-      sh -c "npm install && TEST_ENV=mock npx jest --testNamePattern='Mock-Specific'"
+      sh -c "npm install &&
+             for i in {1..15}; do
+               wget -qO- http://mock-api:80/posts/1 >/dev/null 2>&1 && break;
+               echo \"Waiting for mock-api... attempt $$i\";
+               sleep 2;
+             done &&
+             TEST_ENV=mock npx jest --testNamePattern='Mock-Specific'"
     depends_on:
-      mock-api:
-        condition: service_healthy
+      - mock-api
     networks:
       - test-network
 
