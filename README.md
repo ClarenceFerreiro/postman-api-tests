@@ -17,7 +17,8 @@ REST API automation portfolio demonstrating **data-driven testing**, **JSON Sche
 | **Schema validation** | AJV + JSON Schema | all endpoints | ✅ | inline |
 | **Performance** | Response-time tiers | 4 endpoints | ✅ `main` only | CI logs |
 | **Load testing** | **k6** | ramp-up → spike → ramp-down | ⏳ local | stdout |
-| **Mock API** | **Docker + json-server** | localhost:3000 | ⏳ local | — |
+| **Mock API** | **Docker + json-server** | localhost:3000 | ✅ CI | — |
+| **Mock integration** | **Docker + Node.js** | error handling, rate limiting, auth | ✅ CI | Junit XML |
 
 ---
 
@@ -119,25 +120,42 @@ postman-api-tests/
 
 ## 🐳 Docker Mock API
 
-Run tests against a local API instead of external `jsonplaceholder.typicode.com`:
+Run tests against a local API instead of external `jsonplaceholder.typicode.com`.
+Useful when backend is still in development or you need to simulate error scenarios.
+
+### Quick Start
 
 ```bash
-docker-compose up -d
+# Terminal 1 — start mock API
+docker-compose up -d mock-api
 # API available at http://localhost:3000
+
+# Terminal 2 — run mock-specific tests
+cd api-tests-ts
+npm run test:mock
 ```
 
-| Endpoint | Description |
-|----------|-------------|
-| GET /posts | 3 test posts |
-| GET /users | 2 test users |
-| GET /comments | 1 comment |
-| GET /todos | 1 todo |
-| GET /albums | 1 album |
+### Mock Scenarios (middleware.js)
+
+| Scenario | Endpoint | Result |
+|----------|----------|--------|
+| **500 Error** | GET `/users/500` | Returns 500 with structured error body |
+| **Slow Response** | GET `/users/slow` | Returns 200 after 3.2s delay (perf SLA fail) |
+| **Rate Limiting** | POST `/orders` | ~10% requests return 429 Too Many Requests |
+| **Validation Error** | POST `/users` (no email) | Returns 422 with field-level error |
+| **Unauthorized** | Any with `X-Mock-Auth: invalid` | Returns 401 |
+| **Forbidden** | DELETE `/users/1` with `X-Mock-Role: viewer` | Returns 403 |
+
+### Full Stack in Docker
 
 ```bash
-# Run TypeScript tests against local API
-cd api-tests-ts
-BASE_URL=http://localhost:3000 npm test
+# Runs mock API, waits for healthcheck, then runs tests
+docker-compose up --abort-on-container-exit api-tests
+```
+
+```bash
+# Or manually: run integration tests in Docker
+BASE_URL=http://localhost:3000 TEST_ENV=mock npm test -- --testNamePattern='Mock-Specific'
 ```
 
 ---
@@ -190,6 +208,7 @@ Bot hosted on **Railway** — receives CI notifications and test reports.
 
 | Version | Date | Change |
 |---------|------|--------|
+| **v2.2** | 2026-06-04 | Docker Mock API with middleware scenarios, CI/CD integration tests |
 | **v2.1** | 2026-06-04 | Docker mock API, k6 load tests, Allure TS report, Telegram inline buttons |
 | **v2.0** | 2026-06-04 | TypeScript rewrite: 30+ tests, data-driven, AJV, 4 CI jobs |
 | v1.2 | — | Playwright E2E (local) |
