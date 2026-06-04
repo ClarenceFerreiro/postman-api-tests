@@ -1,0 +1,3 @@
+pm.test("200 OK", () => pm.response.to.have.status(200));
+const res = pm.response.json();
+pm.test("Все посты принадлежат userId=1", () => res.every(p => p.userId === 1));
