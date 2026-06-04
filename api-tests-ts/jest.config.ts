@@ -33,12 +33,6 @@ const config: Config = {
         outputName: 'junit-report.xml',
       },
     ],
-    [
-      'allure',
-      {
-        outputDirectory: './allure-results',
-      },
-    ],
   ],
 };
 
