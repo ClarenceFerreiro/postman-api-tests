@@ -221,6 +221,30 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // DELETE /users/:id with viewer role → 403
+  if (req.method === 'DELETE' && resource === 'users' && id && mockRole === 'viewer') {
+    res.writeHead(403, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      error: 'Forbidden',
+      message: 'Role viewer cannot perform DELETE operations'
+    }));
+    return;
+  }
+
+  // DELETE /users/:id (allowed for admin)
+  if (req.method === 'DELETE' && resource && id) {
+    const idx = collection.findIndex(item => item.id === parseInt(id) || item.id === id);
+    if (idx === -1) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Not found' }));
+      return;
+    }
+    collection.splice(idx, 1);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ deleted: true, id: parseInt(id) }));
+    return;
+  }
+
   // Fallback
   res.writeHead(404, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ error: 'Not found' }));
