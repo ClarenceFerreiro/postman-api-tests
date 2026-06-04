@@ -110,6 +110,22 @@ postman-api-tests/
 | Config | **dotenv** | environment variables |
 | CI | **GitHub Actions** | parallel jobs, artifacts |
 | Reports | **Allure** (Postman), **Junit XML** (TS) | dashboards, test history |
+| Bot | **Telegram + Railway** | notifications, run tests via `/run` |
+
+---
+
+## 🤖 Telegram Bot (Railway)
+
+Bot hosted on **Railway** — receives CI notifications and test reports.
+
+| Command | What it does |
+|---------|-------------|
+| `/start` | Welcome + command list |
+| `/status` | Current test status snapshot |
+| `/report` | Links to Allure / HTML reports |
+| `/run` | Triggers GitHub Actions workflow via API |
+
+**Planned:** inline keyboard buttons for easier control.
 
 ---
 
