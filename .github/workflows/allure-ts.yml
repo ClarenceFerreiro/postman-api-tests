@@ -1,4 +1,4 @@
-name: Allure Report — TypeScript Tests
+name: HTML Report — TypeScript Tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  allure-ts:
+  html-report:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,30 +22,23 @@ jobs:
         cd api-tests-ts
         npm install
 
-    - name: Install Allure CLI
-      run: |
-        wget -q -O allure.tgz https://github.com/allure-framework/allure2/releases/download/2.30.0/allure-2.30.0.tgz
-        tar -xzf allure.tgz -C /tmp/
-        echo "/tmp/allure-2.30.0/bin" >> $GITHUB_PATH
-        export PATH="/tmp/allure-2.30.0/bin:$PATH"
-        allure --version
-
-    - name: Run tests with Allure
+    - name: Run tests with HTML reporter
       run: |
         cd api-tests-ts
         npm test
 
-    - name: Generate Allure Report
+    - name: Prepare report for Pages
       run: |
-        allure generate api-tests-ts/allure-results -o allure-report-ts --clean
-        echo "Build time: $(date)" > allure-report-ts/timestamp.txt
+        mkdir -p html-report-ts
+        cp api-tests-ts/reports/test-report.html html-report-ts/index.html
+        echo "<!DOCTYPE html><html><head><meta charset='utf-8'><title>TypeScript Test Report</title></head><body><h1>TypeScript API Test Report</h1><p><a href='index.html'>View Full Report</a></p><p>Generated: $(date -u)</p></body></html>" > html-report-ts/landing.html
 
     - name: Deploy to GitHub Pages (subfolder)
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: allure-report-ts
+        publish_dir: html-report-ts
         destination_dir: allure-ts
         keep_files: true
         user_name: 'github-actions[bot]'
@@ -57,5 +50,5 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: |
-          ✅ TypeScript Allure Report generated!
+          ✅ TypeScript Test Report updated!
           📊 https://clarenceferreiro.github.io/postman-api-tests/allure-ts/

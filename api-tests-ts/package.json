@@ -23,9 +23,8 @@
     "@typescript-eslint/parser": "^8.26.1",
     "eslint": "^9.22.0",
     "jest": "^29.7.0",
+    "jest-html-reporter": "^3.10.2",
     "jest-junit": "^16.0.0",
-    "allure-jest": "^3.9.0",
-    "allure-js-commons": "^3.9.0",
     "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"

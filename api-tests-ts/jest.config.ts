@@ -2,7 +2,7 @@ import type { Config } from 'jest';
 
 const config: Config = {
   preset: 'ts-jest',
-  testEnvironment: 'allure-jest/node',
+  testEnvironment: 'node',
   roots: ['<rootDir>/src'],
   testMatch: ['**/__tests__/**/*.test.ts'],
   transform: {
@@ -31,6 +31,15 @@ const config: Config = {
       {
         outputDirectory: './reports',
         outputName: 'junit-report.xml',
+      },
+    ],
+    [
+      'jest-html-reporter',
+      {
+        pageTitle: 'TypeScript API Test Report',
+        outputPath: './reports/test-report.html',
+        includeFailureMsg: true,
+        includeSuiteFailure: true,
       },
     ],
   ],
