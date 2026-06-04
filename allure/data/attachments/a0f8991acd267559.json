@@ -1,0 +1,11 @@
+{
+    "Content-Type": "text/plain",
+    "User-Agent": "PostmanRuntime/7.39.1",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache",
+    "Postman-Token": "61fe2beb-d3d0-433c-8d44-c6eda98a70d7",
+    "Host": "jsonplaceholder.typicode.com",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Length": "2"
+}
