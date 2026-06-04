@@ -5,14 +5,15 @@ services:
     image: node:20-alpine
     container_name: mock-api
     ports:
-      - "3000:80"
+      - "3000:3000"
     volumes:
       - ./mock-api:/app/mock
     working_dir: /app
     command: >
       sh -c "npm install -g json-server@0.17.4 &&
+             which json-server &&
              json-server --watch /app/mock/db.json
-             --port 80 --host 0.0.0.0
+             --port 3000 --host 0.0.0.0
              --middlewares /app/mock/middleware.js
              --routes /app/mock/routes.json"
     networks:
@@ -24,14 +25,14 @@ services:
     volumes:
       - ./api-tests-ts:/app
     environment:
-      - BASE_URL=http://mock-api:80
+      - BASE_URL=http://mock-api:3000
       - TEST_ENV=mock
     command: >
       sh -c "npm install &&
-             for i in {1..15}; do
-               wget -qO- http://mock-api:80/posts/1 >/dev/null 2>&1 && break;
+             for i in {1..20}; do
+               wget -qO- http://mock-api:3000/posts/1 >/dev/null 2>&1 && break;
                echo \"Waiting for mock-api... attempt $$i\";
-               sleep 2;
+               sleep 3;
              done &&
              TEST_ENV=mock npx jest --testNamePattern='Mock-Specific'"
     depends_on:
