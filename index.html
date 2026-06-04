@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Reports — API Automation</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f0f2f5; }
+        .container { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 20px; }
+        .report-card { background: #f8f9fa; border-radius: 12px; padding: 20px; margin: 20px 0; transition: 0.2s; border: 1px solid #dee2e6; cursor: pointer; }
+        .report-card:hover { transform: translateX(8px); background: #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .report-card h2 { margin: 0 0 10px; color: #2980b9; }
+        .badge { display: inline-block; background: #27ae60; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-top: 10px; }
+        .footer { margin-top: 30px; text-align: center; color: #6c757d; font-size: 13px; }
+        a { text-decoration: none; color: inherit; display: block; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📊 Test Reports Dashboard</h1>
+    <p>API Automation Portfolio — v2.1</p>
+
+    <!-- Postman + Allure -->
+    <a href="./allure/index.html">
+        <div class="report-card">
+            <h2>📮 Postman + Newman</h2>
+            <p>Collection-based API tests with Allure reporting</p>
+            <span class="badge">✅ 5 requests • 7 checks</span>
+        </div>
+    </a>
+
+    <!-- TypeScript + Allure -->
+    <a href="./allure-ts/index.html">
+        <div class="report-card">
+            <h2>💙 TypeScript + Supertest + AJV</h2>
+            <p>30+ programmatic API tests with data-driven patterns</p>
+            <span class="badge">✅ 30+ cases • JSON Schema • CI/CD</span>
+        </div>
+    </a>
+
+    <div class="footer">
+        🔄 Auto-deployed via GitHub Actions on every push to main
+    </div>
+</div>
+</body>
+</html>
