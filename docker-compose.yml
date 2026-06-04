@@ -8,14 +8,11 @@ services:
       - "3000:3000"
     volumes:
       - ./mock-api:/app/mock
-    working_dir: /app
-    command: >
-      sh -c "npm install -g json-server@0.17.4 &&
-             which json-server &&
-             json-server --watch /app/mock/db.json
-             --port 3000 --host 0.0.0.0
-             --middlewares /app/mock/middleware.js
-             --routes /app/mock/routes.json"
+    working_dir: /app/mock
+    command: node server.js
+    environment:
+      - PORT=3000
+      - DATA_FILE=./db.json
     networks:
       - test-network
 
