@@ -72,21 +72,22 @@ describeMock('🧪 Mock-Specific Scenarios (Docker API)', () => {
   // ─── Сценарий 3: Rate Limiting ───────────────────────────────────────
   describe('⏱️  Rate Limiting', () => {
     testMock('POST /orders — ~10% requests return 429', async () => {
-      // Запускаем 30 POST запросов — 10% rate limit = ~3 отказа
-      const results = await Promise.all(
-        Array.from({ length: 30 }, (_, i) =>
-          request(config.baseUrl)
-            .post('/orders')
-            .send({ userId: 1, product: `Product ${i}`, qty: 1 })
-        )
-      );
+      // Отправляем 15 POST запросов ПОСЛЕДОВАТЕЛЬНО
+      // Сервер rate-limit-ит каждый 10-й → 10-й будет 429
+      const results: any[] = [];
+      for (let i = 0; i < 15; i++) {
+        const res = await request(config.baseUrl)
+          .post('/orders')
+          .send({ userId: 1, product: `Product ${i}`, qty: 1 });
+        results.push(res);
+      }
       
       const rateLimited = results.filter(r => r.status === 429);
       const created = results.filter(r => r.status === 201 || r.status === 200);
       
-      // Проверяем, что хотя бы 1 запрос был rate-limited (но не все)
+      // Каждый 10-й должен быть rate-limited → в 15 запросах минимум 1
       expect(rateLimited.length).toBeGreaterThanOrEqual(1);
-      expect(created.length).toBeGreaterThanOrEqual(20);
+      expect(created.length).toBeGreaterThanOrEqual(10);
       
       // Структура 429 ответа
       if (rateLimited.length > 0) {

@@ -58,6 +58,11 @@ function setCORS(res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Mock-Auth, X-Mock-Role');
 }
 
+// Rate limiting counter (persistent per request batch won't work with parallel requests)
+// Use a simple time-based or count-based approach
+let requestCount = 0;
+const RATE_LIMIT_EVERY = 10;
+
 const server = http.createServer((req, res) => {
   setCORS(res);
   
@@ -96,9 +101,10 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // 3. Rate limiting: POST /orders
+  // 3. Rate limiting: every 10th POST to /orders
   if (req.method === 'POST' && reqPath === '/orders') {
-    if (Math.random() < 0.1) {
+    requestCount++;
+    if (requestCount % RATE_LIMIT_EVERY === 0) {
       res.writeHead(429, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({
         error: 'Too Many Requests',
@@ -121,6 +127,18 @@ const server = http.createServer((req, res) => {
             error: 'Validation Failed',
             field: 'email',
             message: 'Email is required and must contain @'
+          }));
+          return;
+        }
+
+        // Check email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+          res.writeHead(422, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({
+            error: 'Validation Failed',
+            field: 'email',
+            message: 'Email must contain @'
           }));
           return;
         }
