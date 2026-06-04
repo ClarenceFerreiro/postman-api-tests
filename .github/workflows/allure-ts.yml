@@ -24,8 +24,10 @@ jobs:
 
     - name: Install Allure CLI
       run: |
-        wget -qO - https://github.com/allure-framework/allure2/releases/download/2.30.0/allure-2.30.0.tgz | tar -xz -C /tmp/
+        wget -q -O allure.tgz https://github.com/allure-framework/allure2/releases/download/2.30.0/allure-2.30.0.tgz
+        tar -xzf allure.tgz -C /tmp/
         echo "/tmp/allure-2.30.0/bin" >> $GITHUB_PATH
+        allure --version
 
     - name: Run tests with Allure
       run: |

@@ -17,12 +17,12 @@ jobs:
 
     - name: Setup Docker Compose
       run: |
-        docker-compose --version
+        docker compose version
         docker --version
 
     - name: Start Mock API + Run Tests
       run: |
-        docker-compose up --build --abort-on-container-exit api-tests
+        docker compose up --abort-on-container-exit api-tests
       env:
         TEST_ENV: mock
 
