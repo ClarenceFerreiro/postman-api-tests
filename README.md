@@ -1,155 +1,146 @@
-# Postman API Tests
+# API Test Automation Suite
+
+REST API automation portfolio demonstrating **data-driven testing**, **JSON Schema validation**, and **parallel CI execution**.
 
 [![Allure Report](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-report.yml/badge.svg)](https://clarenceferreiro.github.io/postman-api-tests/)
-[![TypeScript Tests](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/typescript-ci.yml/badge.svg)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
-
-Автотесты для REST API с использованием **Postman**, **Newman**, **TypeScript**, **Supertest**, **Playwright**, **GitHub Actions** и **Allure Report**.
+[![TypeScript Tests v2](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/typescript-ci-v2.yml/badge.svg)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
 
 ---
 
-## 📊 Проект в цифрах
+## 📊 Metrics
 
-| Тип тестов | Инструмент | Количество | CI | Отчёт |
-|------------|------------|------------|----|-----|
-| API (коллекции) | Postman + Newman | 5 запросов / 7 проверок | ✅ | Allure |
-| API (программные) | TypeScript + Supertest | 4 теста | ✅ | Jest |
-| E2E + UI | Playwright | 6 тестов | ⏳ локально | HTML |
-
----
-
-## 🧪 Что тестируется
-
-| Категория | Тесты |
-|-----------|-------|
-| **Позитивные** | GET пост ID=1 (200), POST новый пост (201), GET с фильтрацией по userId (200) |
-| **Негативные** | GET несуществующий пост (404) |
-| **Граничные** | POST с пустым телом (201 — API принимает) |
-| **Программные** | Supertest: статусы, валидация JSON, ассерты |
-| **E2E** | Playwright: UI проверки, скриншоты, трассировка |
+| Layer | Tool | Tests | CI | Report |
+|-------|------|-------|-----|--------|
+| **API (collection)** | Postman + Newman | 5 requests / 7 checks | ✅ | [Allure](https://clarenceferreiro.github.io/postman-api-tests/) |
+| **API (programmatic)** | TypeScript + Supertest + AJV | **30+ cases** | ✅ 4 parallel jobs | Junit XML |
+| **Schema validation** | AJV + JSON Schema | all endpoints | ✅ | inline |
+| **Performance** | Response-time tiers | 4 endpoints | ✅ `main` only | CI logs |
 
 ---
 
-## 🚀 Запуск тестов
+## 🧪 Test Categories
 
-### Postman (локально)
+| Tag | Cases | What is covered |
+|-----|-------|---------------|
+| `@smoke` | 3 | critical paths: GET /posts/1, GET /posts, GET /users/1 |
+| `@regression` | 8 | CRUD (POST variants), filtering, empty results |
+| `@negative` | 14 | invalid IDs, SQLi, XSS, missing/wrong fields |
+| `@performance` | 4 | latency classification: excellent / acceptable / slow / failed |
+| `@boundary` | 3 | `_limit=0`, `_limit=100`, `_limit=-1` |
+| `@data-driven` | 5 | parameterized: /posts, /users, /comments, /todos, /albums |
 
+---
+
+## 🚀 Quick Start
+
+### Postman collection
 ```bash
 npm install -g newman
 newman run my-collection.json
 ```
 
-### TypeScript + Supertest
+### TypeScript suite (v2)
 ```bash
 cd api-tests-ts
 npm install
-npm test
+npm test                    # full suite
+npm run test:smoke          # 3 critical cases
+npm run test:regression     # CRUD + filtering
+npm run test:negative       # security + invalid inputs
+npm run test:performance    # latency thresholds
 ```
-
-Playwright E2E
-```bash
-cd api-tests-ts
-npx playwright test
-npx playwright show-report
-```
-
-## 📊 Allure Report
-
-После каждого push автоматически генерируется и публикуется Allure Report:
-
-🔗 **https://clarenceferreiro.github.io/postman-api-tests/**
-
-Отчёт содержит:
-- Статус прохождения 5 тест-кейсов
-- Время выполнения каждого запроса
-- Детальные шаги и проверки
-- Графики и историю запусков
 
 ---
 
-## ⚙️ CI/CD Pipeline (GitHub Actions)
+## ⚙️ CI/CD
 
-| Workflow | Триггер | Что делает |
-|----------|---------|------------|
-| `Allure Report` | push в main | Запускает Postman тесты → генерирует Allure отчёт → деплой на GitHub Pages |
-| `TypeScript API Tests` | push в main | Устанавливает зависимости → запускает Jest → проверяет API через Supertest |
-| `Playwright E2E Tests` | push в main | Устанавливает Playwright и браузеры → запускает E2E тесты → публикует HTML отчёт |
+4 parallel jobs triggered on every push to `main`:
+
+```
+smoke-tests ──→ regression-tests ──→ full-suite + Junit
+     │                │
+     └──────→ negative-tests ───────┘
+                │
+         performance-tests  (main only)
+```
+
+| Job | Trigger | Artifact on failure |
+|-----|---------|---------------------|
+| `Smoke Tests` | every push | smoke-test-results |
+| `Regression Tests` | after smoke | coverage-report |
+| `Negative Tests` | after smoke | — |
+| `Performance Tests` | `main` branch only | — |
+| `Full Suite + Junit` | after all | junit-report.xml |
 
 ---
 
-## 📁 Структура проекта
+## 📁 Structure
 
 ```
 postman-api-tests/
 ├── .github/workflows/
-│   ├── allure-report.yml      # Postman CI
-│   └── typescript-ci.yml      # TypeScript CI
-├── api-tests-ts/              # TypeScript + Playwright тесты
-│   ├── api.test.js            # Supertest API тесты
-│   ├── simple.test.js         # Простой тест для проверки CI
-│   ├── playwright.config.ts   # Конфигурация Playwright
-│   └── tests/                 # E2E тесты Playwright
-├── docs/
-│   └── index.html             # Главная страница отчётов
-├── my-collection.json         # Postman коллекция (5 запросов)
+│   ├── allure-report.yml          # Postman → Allure → GitHub Pages
+│   ├── typescript-ci.yml          # legacy (kept for history)
+│   └── typescript-ci-v2.yml       # NEW: 4 parallel jobs, coverage gate 80%
+│
+├── api-tests-ts/                   # TypeScript v2 suite
+│   ├── src/
+│   │   ├── __tests__/api.test.ts   # 30+ cases, data-driven (test.each)
+│   │   ├── types/api.types.ts      # strict interfaces: Post, Comment, User...
+│   │   ├── schemas/api.schemas.ts  # JSON Schema for AJV validation
+│   │   └── config/env.ts           # .env, performance tiers, thresholds
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── jest.config.ts
+│
+├── my-collection.json              # Postman collection (legacy demo)
 └── README.md
 ```
 
-## 🛠️ Технологии
+---
 
-| Инструмент | Назначение |
-|------------|------------|
-| Postman / Newman | Разработка и запуск API тестов |
-| TypeScript + Supertest | Программные API тесты |
-| Playwright | E2E и UI тестирование |
-| Jest | Тестраннер и ассерты |
-| Allure Report | Визуализация результатов |
-| GitHub Actions | CI/CD автоматизация |
-| GitHub Pages | Хостинг отчётов |
+## 🛠️ Tech Stack
 
-## 📊 Полный стек автоматизации
-```
-Postman + Newman ──→ Allure Report ──→ GitHub Pages
-↓
-TypeScript + Supertest ──→ Jest ──→ Allure Report
-↓
-Playwright ──→ HTML Report ──→ GitHub Pages
-↓
-Telegram Bot
-↓
-/status, /report, /run
-```
-## 📈 Итоговые результаты
-
-✅ Настроен CI для Postman тестов с Allure отчётами  
-✅ Добавлен CI для TypeScript + Supertest  
-✅ Интегрированы Playwright E2E тесты (локально)  
-✅ Создан единый дашборд отчётов на GitHub Pages  
-✅ Разрешены конфликты Git и налажен процесс деплоя  
-✅ Telegram бот — управление тестами через команды
-✅ Написана полная документация в README  
+| Layer | Tool | Purpose |
+|-------|------|---------|
+| Language | **TypeScript 5** | strict typing, interfaces |
+| HTTP client | **Supertest 7** | fluent API assertions |
+| Runner | **Jest 29** | test.each, coverage, reporters |
+| Schema | **AJV 8 + ajv-formats** | JSON Schema validation (`format: email`) |
+| Config | **dotenv** | environment variables |
+| CI | **GitHub Actions** | parallel jobs, artifacts |
+| Reports | **Allure** (Postman), **Junit XML** (TS) | dashboards, test history |
 
 ---
 
-## 🔗 Полезные ссылки
+## 🔑 Key Features
+
+- **Data-driven tests** — `test.each()` with parameterized payloads, IDs, endpoints
+- **JSON Schema validation** — AJV validates structure + `email` format
+- **Performance tiers** — classification by response time (excellent/acceptable/slow/failed)
+- **Coverage gate** — 80% threshold enforced in CI
+- **Security payloads** — SQL injection + XSS tested as negative scenarios
+- **Environment config** — `.env.example` with timeout, retry, threshold settings
+
+---
+
+## 📈 Changelog
+
+| Version | Date | Change |
+|---------|------|--------|
+| **v2.0** | 2026-06-04 | TypeScript rewrite: 30+ tests, data-driven, AJV, 4 CI jobs |
+| v1.2 | — | Playwright E2E (local) |
+| v1.1 | — | Postman + Newman + Allure |
+| v1.0 | — | Initial setup |
+
+---
+
+## 🔗 Links
 
 - [📊 Allure Report (Postman)](https://clarenceferreiro.github.io/postman-api-tests/)
-- [⚙️ GitHub Actions (все запуски)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
-- [📁 Репозиторий на GitHub](https://github.com/ClarenceFerreiro/postman-api-tests)
+- [⚙️ CI Runs](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
+- [📁 Source](https://github.com/ClarenceFerreiro/postman-api-tests)
 
 ---
 
-## 📝 Планы развития
-
-- [x] Postman + Newman + Allure
-- [x] TypeScript + Supertest + Jest
-- [x] Playwright E2E тесты
-- [x] GitHub Actions CI/CD
-- [x] GitHub Pages для отчётов
-- [x] Добавить Playwright в CI
-- [ ] Настроить уведомления в Telegram
-- [ ] Написать нагрузочные тесты (k6)
-
----
-
-*Автотесты для API — демонстрация навыков автоматизации тестирования*  
-
+*Portfolio for QA automation roles. Built with strict TypeScript, data-driven patterns, and CI-first mindset.*
