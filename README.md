@@ -2,6 +2,8 @@
 
 REST API automation portfolio demonstrating **data-driven testing**, **JSON Schema validation**, and **parallel CI execution**.
 
+📘 **Детальный справочник:** [QA-HANDBOOK.md](./QA-HANDBOOK.md) — словарь терминов, архитектура, скрипты для собеседований.
+
 [![Allure Report](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-report.yml/badge.svg)](https://clarenceferreiro.github.io/postman-api-tests/)
 [![TypeScript Tests v2](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/typescript-ci-v2.yml/badge.svg)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
 [![Allure TS Report](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-ts.yml/badge.svg)](https://clarenceferreiro.github.io/postman-api-tests/allure-ts/)
