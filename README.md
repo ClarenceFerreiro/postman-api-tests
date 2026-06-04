@@ -4,6 +4,7 @@ REST API automation portfolio demonstrating **data-driven testing**, **JSON Sche
 
 [![Allure Report](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-report.yml/badge.svg)](https://clarenceferreiro.github.io/postman-api-tests/)
 [![TypeScript Tests v2](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/typescript-ci-v2.yml/badge.svg)](https://github.com/ClarenceFerreiro/postman-api-tests/actions)
+[![Allure TS Report](https://github.com/ClarenceFerreiro/postman-api-tests/actions/workflows/allure-ts.yml/badge.svg)](https://clarenceferreiro.github.io/postman-api-tests/allure-ts/)
 
 ---
 
@@ -12,9 +13,11 @@ REST API automation portfolio demonstrating **data-driven testing**, **JSON Sche
 | Layer | Tool | Tests | CI | Report |
 |-------|------|-------|-----|--------|
 | **API (collection)** | Postman + Newman | 5 requests / 7 checks | ✅ | [Allure](https://clarenceferreiro.github.io/postman-api-tests/) |
-| **API (programmatic)** | TypeScript + Supertest + AJV | **30+ cases** | ✅ 4 parallel jobs | Junit XML |
+| **API (programmatic)** | TypeScript + Supertest + AJV | **30+ cases** | ✅ 4 parallel jobs | Junit XML + [Allure TS](https://clarenceferreiro.github.io/postman-api-tests/allure-ts/) |
 | **Schema validation** | AJV + JSON Schema | all endpoints | ✅ | inline |
 | **Performance** | Response-time tiers | 4 endpoints | ✅ `main` only | CI logs |
+| **Load testing** | **k6** | ramp-up → spike → ramp-down | ⏳ local | stdout |
+| **Mock API** | **Docker + json-server** | localhost:3000 | ⏳ local | — |
 
 ---
 
@@ -114,6 +117,49 @@ postman-api-tests/
 
 ---
 
+## 🐳 Docker Mock API
+
+Run tests against a local API instead of external `jsonplaceholder.typicode.com`:
+
+```bash
+docker-compose up -d
+# API available at http://localhost:3000
+```
+
+| Endpoint | Description |
+|----------|-------------|
+| GET /posts | 3 test posts |
+| GET /users | 2 test users |
+| GET /comments | 1 comment |
+| GET /todos | 1 todo |
+| GET /albums | 1 album |
+
+```bash
+# Run TypeScript tests against local API
+cd api-tests-ts
+BASE_URL=http://localhost:3000 npm test
+```
+
+---
+
+## ⚡ k6 Load Testing
+
+```bash
+cd k6
+k6 run load-test.js
+
+# Against local Docker API
+BASE_URL=http://localhost:3000 k6 run load-test.js
+```
+
+**Scenario:** ramp-up 10 users → steady 1m → spike to 20 → ramp-down
+
+**Thresholds:**
+- p95 latency < 500ms
+- Error rate < 5%
+
+---
+
 ## 🤖 Telegram Bot (Railway)
 
 Bot hosted on **Railway** — receives CI notifications and test reports.
@@ -144,6 +190,7 @@ Bot hosted on **Railway** — receives CI notifications and test reports.
 
 | Version | Date | Change |
 |---------|------|--------|
+| **v2.1** | 2026-06-04 | Docker mock API, k6 load tests, Allure TS report, Telegram inline buttons |
 | **v2.0** | 2026-06-04 | TypeScript rewrite: 30+ tests, data-driven, AJV, 4 CI jobs |
 | v1.2 | — | Playwright E2E (local) |
 | v1.1 | — | Postman + Newman + Allure |
