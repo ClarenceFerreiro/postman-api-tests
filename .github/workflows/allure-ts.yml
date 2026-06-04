@@ -1,0 +1,58 @@
+name: Allure Report — TypeScript Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  allure-ts:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        cd api-tests-ts
+        npm install
+
+    - name: Install Allure CLI
+      run: |
+        npm install -g allure-commandline
+
+    - name: Run tests with Allure
+      run: |
+        cd api-tests-ts
+        npm run test:allure
+
+    - name: Generate Allure Report
+      run: |
+        allure generate api-tests-ts/allure-results -o allure-report-ts --clean
+        echo "Build time: $(date)" > allure-report-ts/timestamp.txt
+
+    - name: Deploy to GitHub Pages (subfolder)
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: allure-report-ts
+        destination_dir: allure-ts
+        keep_files: true
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Telegram notification
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message: |
+          ✅ TypeScript Allure Report generated!
+          📊 https://clarenceferreiro.github.io/postman-api-tests/allure-ts/

@@ -1,0 +1,20 @@
+{
+  "posts": [
+    { "userId": 1, "id": 1, "title": "Test post 1", "body": "Body 1" },
+    { "userId": 1, "id": 2, "title": "Test post 2", "body": "Body 2" },
+    { "userId": 2, "id": 3, "title": "Test post 3", "body": "Body 3" }
+  ],
+  "comments": [
+    { "postId": 1, "id": 1, "name": "Commenter", "email": "test@example.com", "body": "Nice post" }
+  ],
+  "users": [
+    { "id": 1, "name": "User One", "username": "user1", "email": "user1@example.com" },
+    { "id": 2, "name": "User Two", "username": "user2", "email": "user2@example.com" }
+  ],
+  "todos": [
+    { "userId": 1, "id": 1, "title": "Todo 1", "completed": false }
+  ],
+  "albums": [
+    { "userId": 1, "id": 1, "title": "Album 1" }
+  ]
+}
